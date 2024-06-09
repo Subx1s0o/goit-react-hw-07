@@ -4,8 +4,7 @@ import * as Yup from "yup";
 
 import css from "./contactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
-
+import { addContact } from "../../redux/contactsOps";
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Too Short!")
@@ -25,7 +24,11 @@ const phoneId = nanoid();
 export default function ContactForm() {
   const dispatch = useDispatch();
   const handleSubmit = (values, { resetForm }) => {
-    dispatch(addContact(values.name.trim(), values.phone.trim()));
+    const newContact = {
+      name: values.name.trim(),
+      number: values.phone.trim(),
+    };
+    dispatch(addContact(newContact));
 
     resetForm();
   };
